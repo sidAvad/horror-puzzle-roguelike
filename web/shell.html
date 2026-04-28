@@ -7,7 +7,7 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #000; display: flex; flex-direction: column; align-items: center; padding-top: 8px; }
-    #canvas { display: block; width: 100vw; height: auto; max-width: 800px; }
+    #canvas { display: block; }
 
     #dpad {
       display: grid;
@@ -35,6 +35,7 @@
 </head>
 <body>
   <canvas id="canvas" width="800" height="600" oncontextmenu="event.preventDefault()"></canvas>
+  <p id="status" style="color:#666;font-family:monospace;font-size:12px;margin-top:4px;">Loading...</p>
 
   <div id="dpad">
     <div class="btn" id="btn-up">▲</div>
@@ -62,6 +63,29 @@
     });
   </script>
 
+  <script>
+    function scaleCanvas() {
+      var canvas = document.getElementById('canvas');
+      var w = Math.min(window.innerWidth, 800);
+      canvas.style.width  = w + 'px';
+      canvas.style.height = (w * 600 / 800) + 'px';
+    }
+    window.addEventListener('resize', scaleCanvas);
+    scaleCanvas();
+
+    var Module = {
+      canvas: document.getElementById('canvas'),
+      onRuntimeInitialized: function() {
+        document.getElementById('status').textContent = 'Running';
+        scaleCanvas();
+      },
+      print: function(t) { console.log(t); },
+      printErr: function(t) {
+        console.error(t);
+        document.getElementById('status').textContent = 'Error: ' + t;
+      }
+    };
+  </script>
   {{{ SCRIPT }}}
 </body>
 </html>
