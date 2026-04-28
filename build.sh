@@ -8,6 +8,7 @@ RAYLIB_SRC=/tmp/raylib-src/src
 
 emcc src/main.c \
   -o build/web/index.html \
+  --shell-file web/shell.html \
   -I${RAYLIB_SRC} \
   -L${RAYLIB_SRC} -lraylib_web \
   -s USE_GLFW=3 \
